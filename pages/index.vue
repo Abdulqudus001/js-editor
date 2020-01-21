@@ -1,72 +1,62 @@
 <template>
-  <div class="container">
-    <div>
-      <logo />
-      <h1 class="title">
-        js-editor
-      </h1>
-      <h2 class="subtitle">
-        A javascript editor built on monaco editor
-      </h2>
-      <div class="links">
-        <a
-          href="https://nuxtjs.org/"
-          target="_blank"
-          class="button--green"
-        >
-          Documentation
-        </a>
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          class="button--grey"
-        >
-          GitHub
-        </a>
-      </div>
+  <div class="container" id="container">
+    <div class="instructions">Hello from this side
+      <p>Here's the code this guy just wrote {{ code }}</p>
+      <button @click="test">Click me</button>
     </div>
+    <div id="app" class="editor"></div>
   </div>
 </template>
 
 <script>
-import Logo from '~/components/Logo.vue'
-
 export default {
-  components: {
-    Logo
+  data: () => ({
+    options: {
+      autoIndent: 'full',
+      tabSize: 2,
+      theme: 'vs-dark',
+      language: 'javascript'
+    },
+    code: ''
+  }),
+  mounted () {
+    const _this = this;
+    const monaco = require('monaco-editor');
+    monaco.editor.create(document.getElementById('app'), _this.options);
+  },
+  methods: {
+    test () {
+      const monaco = require('monaco-editor');
+      this.code = monaco.editor.getModels()[0].getValue();
+      console.log(this.code);
+    }
+  },
+  watch: {
+    value (value) {
+      console.log(value);
+    }
   }
-}
+};
 </script>
 
-<style>
+<style lang="scss">
 .container {
   margin: 0 auto;
   min-height: 100vh;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   text-align: center;
+  .instructions {
+    height: 100%;
+    flex: 0 0 45%;
+  }
+  .editor {
+    flex: 0 0 45%;
+    width: 100%;
+    height: calc(100vh - 80px);
+    text-align: left
+  }
 }
 
-.title {
-  font-family: 'Quicksand', 'Source Sans Pro', -apple-system, BlinkMacSystemFont,
-    'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  display: block;
-  font-weight: 300;
-  font-size: 100px;
-  color: #35495e;
-  letter-spacing: 1px;
-}
-
-.subtitle {
-  font-weight: 300;
-  font-size: 42px;
-  color: #526488;
-  word-spacing: 5px;
-  padding-bottom: 15px;
-}
-
-.links {
-  padding-top: 15px;
-}
 </style>
