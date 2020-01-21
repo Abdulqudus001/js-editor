@@ -1,4 +1,4 @@
-
+const MonacoWebPackPlugin = require('monaco-editor-webpack-plugin');
 module.exports = {
   mode: 'universal',
   /*
@@ -49,6 +49,11 @@ module.exports = {
     /*
     ** You can extend webpack config here
     */
+    plugins: [
+      new MonacoWebPackPlugin({
+        languages: ['javascript', 'typescript']
+      })
+    ],
     extend (config, ctx) {
     }
   }
